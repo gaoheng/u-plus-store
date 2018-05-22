@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 public class SKU implements Serializable {
@@ -12,20 +13,26 @@ public class SKU implements Serializable {
 
     private Long id;
 
-    private String name;
+    private String name = "";
 
-    private String code;
+    private String code = "";
 
-    private BigDecimal price;
+    private BigDecimal price = new BigDecimal(0);
 
-    private Integer stock;
+    private Integer stock = 0;
 
-    private String color;
+    private String color = "";
 
-    private String size;
+    private String size = "";
 
-    private String mainImg;
+    private String mainImg = "";
 
-    private String tagImg;
+    private String tagImg = "";
+
+    private String source = "";
+
+    private Date createTime = new Date();
+
+    private Date updateTime = new Date();
 
 }
