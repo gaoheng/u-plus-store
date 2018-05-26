@@ -17,7 +17,7 @@ public interface SKUDao {
     @Update("insert into sku(" +
             "   name, code, price, color, size, mainImg, tagImg, source, createTime" +
             ") values (" +
-            "   #{name}, #{code}, #{price}, #{color}, #{size}, #{mainImg}, #{tagImg}, #{source}, createTime)")
+            "   #{name}, #{code}, #{price}, #{color}, #{size}, #{mainImg}, #{tagImg}, #{source}, #{createTime})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Long.class)
     int insert(SKU sku);
 
