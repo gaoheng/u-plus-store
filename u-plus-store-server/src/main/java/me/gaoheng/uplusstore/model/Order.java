@@ -14,11 +14,11 @@ public class Order implements Serializable {
 
     private BigDecimal total;
 
-    private BigDecimal discounted;
+    private BigDecimal discount;
 
-    private BigDecimal actuallyPaid;
+    private BigDecimal paid;
 
-    private Date createTime;
+    private Date createTime = new Date();
 
-    private Date updateTime;
+    private Date updateTime = new Date();
 }

@@ -23,7 +23,7 @@ public class OrderController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Order create(@RequestBody OrderCreating orderCreating) {
-        Order order = orderService.create(orderCreating.getDiscounted(), orderCreating.getItems());
+        Order order = orderService.create(orderCreating);
         return order;
     }
 
@@ -31,9 +31,33 @@ public class OrderController {
     public static class OrderCreating implements Serializable {
         private static final long serialVersionUID = -8256023313021161128L;
 
-        private BigDecimal discounted;
+        private BigDecimal total;
 
-        private List<OrderItem> items;
+        private BigDecimal discount;
+
+        private BigDecimal paid;
+
+        private List<OrderItemCreating> items;
+    }
+
+    @Data
+    public static class OrderItemCreating implements Serializable {
+        private static final long serialVersionUID = -8256023313021161128L;
+
+        private Long skuId;
+
+        private String skuCode;
+
+        private String skuName;
+
+        private String skuColor;
+
+        private String skuSize;
+
+        private BigDecimal skuPrice;
+
+        private Integer quantity;
+
     }
 
 }

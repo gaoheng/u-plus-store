@@ -29,28 +29,17 @@ public class OrderItemDaoTest {
         OrderItem item = new OrderItem();
         item.setOrderId(orderId);
         item.setSkuId(skuId);
-        item.setPrice(new BigDecimal("99.99"));
+        item.setSkuName("test-name");
+        item.setSkuCode("test-code");
+        item.setSkuColor("RED");
+        item.setSkuSize("XXXXL");
+        item.setSkuPrice(new BigDecimal("99.99"));
         item.setQuantity(99);
         item.setCreateTime(new Date());
         int affectedRowCount = dao.insert(item);
 
         assertThat(affectedRowCount).isEqualTo(1);
         assertThat(item.getId()).isNotNull();
-    }
-
-    @Test
-    public void testUpdate() {
-        Long orderId = 1L;
-        Long skuId = 4L;
-        OrderItem item = new OrderItem();
-        item.setId(1L);
-        item.setOrderId(orderId);
-        item.setSkuId(skuId);
-        item.setPrice(new BigDecimal("199.99"));
-        item.setQuantity(199);
-        int affectedRowCount = dao.update(item);
-
-        assertThat(affectedRowCount).isEqualTo(1);
     }
 
     @Test

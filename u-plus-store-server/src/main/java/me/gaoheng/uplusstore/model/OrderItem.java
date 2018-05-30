@@ -16,11 +16,19 @@ public class OrderItem implements Serializable {
 
     private Long skuId;
 
-    private BigDecimal price;
+    private String skuCode;
+
+    private String skuName;
+
+    private String skuColor;
+
+    private String skuSize;
+
+    private BigDecimal skuPrice;
 
     private Integer quantity;
 
-    private Date createTime;
+    private Date createTime = new Date();
 
-    private Date updateTime;
+    private Date updateTime = new Date();
 }

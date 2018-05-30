@@ -26,8 +26,8 @@ public class OrderDaoTest {
     public void testInsert() {
         Order order = new Order();
         order.setTotal(new BigDecimal("99.99"));
-        order.setDiscounted(new BigDecimal("6.66"));
-        order.setActuallyPaid(new BigDecimal("93.33"));
+        order.setDiscount(new BigDecimal("6.66"));
+        order.setPaid(new BigDecimal("93.33"));
         order.setCreateTime(new Date());
         int affectedRowCount = dao.insert(order);
 
@@ -40,8 +40,8 @@ public class OrderDaoTest {
         Order order = new Order();
         order.setId(1L);
         order.setTotal(new BigDecimal("199.99"));
-        order.setDiscounted(new BigDecimal("6.66"));
-        order.setActuallyPaid(new BigDecimal("193.33"));
+        order.setDiscount(new BigDecimal("6.66"));
+        order.setPaid(new BigDecimal("193.33"));
         order.setCreateTime(new Date());
         int affectedRowCount = dao.update(order);
 
