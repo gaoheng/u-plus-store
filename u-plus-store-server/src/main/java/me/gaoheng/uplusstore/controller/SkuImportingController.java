@@ -51,9 +51,12 @@ public class SkuImportingController {
             try {
 
                 String importStatus = item.getImportStatus();
-                switch(importStatus) {
-                    case "PENDING": doImportItem(item); break;
-                    default: log.debug("Skip import non-pending item, id: {}.", item.getId());
+                switch (importStatus) {
+                    case "PENDING":
+                        doImportItem(item);
+                        break;
+                    default:
+                        log.debug("Skip import non-pending item, id: {}.", item.getId());
                 }
 
                 log.debug("Finished importing item, id: {}.", item.getId());
@@ -66,14 +69,14 @@ public class SkuImportingController {
 
     private void doImportItem(SKUImporting item) {
         String code = item.getCode();
-        if(StringUtils.equalsIgnoreCase(code, "{自动生成}")) {
+        if (StringUtils.equalsIgnoreCase(code, "{自动生成}")) {
             code = generateCode();
             item.setCode(code);
             log.debug("Generate sku code: {} for importing: {}.", code, item);
         }
 
         SKU sku = skuService.getByCode(code);
-        if(sku == null) {
+        if (sku == null) {
             log.debug("SKU[{}] not exists, creating...", code);
             sku = createSKU(item, "批量入库");
         }
@@ -119,14 +122,14 @@ public class SkuImportingController {
             for (Row row : sheet) {
                 log.debug("Start processing row[{}] of sheet[].", row.getRowNum(), sheetName);
 
-                if(skipped < skipRows) {
+                if (skipped < skipRows) {
                     skipped++;
                     log.debug("Skip row[{}].", skipped);
                     continue;
                 }
 
                 Cell codeCell = row.getCell(0);
-                if("EOF".equals(codeCell.getStringCellValue())) {
+                if ("EOF".equals(codeCell.getStringCellValue())) {
                     log.debug("Breaked with 'EOF', row num: .", row.getRowNum());
                     break;
                 }
@@ -151,7 +154,7 @@ public class SkuImportingController {
                 s.setUpdateTime(now);
             }
 
-            if(importings.size() > 0) {
+            if (importings.size() > 0) {
                 doImport(importings);
                 result.setList(importings);
             }
@@ -176,9 +179,12 @@ public class SkuImportingController {
 
         CellType type = cell.getCellTypeEnum();
         switch (type) {
-            case BLANK: return "";
-            case STRING: return cell.getStringCellValue();
-            case NUMERIC: return String.valueOf(cell.getNumericCellValue());
+            case BLANK:
+                return "";
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
         }
 
         return val;

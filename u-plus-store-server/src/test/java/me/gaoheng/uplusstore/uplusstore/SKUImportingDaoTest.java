@@ -27,7 +27,7 @@ public class SKUImportingDaoTest {
     public void testBatchInsert() {
         List<SKUImporting> list = Lists.newArrayList();
 
-        for(int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 5; i++) {
             SKUImporting sku = new SKUImporting();
             sku.setBatchNo("Batch:" + i);
             sku.setCode("Code:" + i);

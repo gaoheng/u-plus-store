@@ -29,7 +29,7 @@ public class SKUService {
     }
 
     public SKU save(SKU sku) {
-        if(sku.getId() == null) {
+        if (sku.getId() == null) {
             dao.insert(sku);
             log.debug("Insert sku, id: {}, sku: {}.", sku.getId(), sku);
         } else {

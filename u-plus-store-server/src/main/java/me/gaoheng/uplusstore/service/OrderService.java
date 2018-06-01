@@ -31,10 +31,10 @@ public class OrderService {
                 .get();
         BigDecimal paid = total.subtract(orderCreating.getDiscount());
 
-        if(orderCreating.getTotal().compareTo(total) != 0) {
+        if (orderCreating.getTotal().compareTo(total) != 0) {
             throw new IllegalArgumentException("订单总金额错误");
         }
-        if(orderCreating.getPaid().compareTo(paid) != 0) {
+        if (orderCreating.getPaid().compareTo(paid) != 0) {
             throw new IllegalArgumentException("订单实付金额错误");
         }
 
