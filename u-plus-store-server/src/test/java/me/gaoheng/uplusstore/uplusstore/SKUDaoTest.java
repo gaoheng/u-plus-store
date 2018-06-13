@@ -27,8 +27,6 @@ public class SKUDaoTest {
         sku.setColor("black");
         sku.setSize("XL");
         sku.setStock(100);
-        sku.setMainImg("http://main.jpg");
-        sku.setTagImg("http://tag.jpg");
         int affectedRowCount = dao.insert(sku);
 
         assertThat(affectedRowCount).isEqualTo(1);
@@ -44,8 +42,6 @@ public class SKUDaoTest {
         sku.setColor("black1");
         sku.setSize("XL1");
         sku.setStock(99);
-        sku.setMainImg("http://main.jpg");
-        sku.setTagImg("http://tag.jpg");
         int affectedRowCount = dao.update(sku);
 
         assertThat(affectedRowCount).isEqualTo(1);

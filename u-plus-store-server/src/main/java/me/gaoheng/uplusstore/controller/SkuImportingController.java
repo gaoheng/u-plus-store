@@ -56,7 +56,7 @@ public class SkuImportingController {
                         doImportItem(item);
                         break;
                     default:
-                        log.debug("Skip import non-pending item, id: {}.", item.getId());
+                        log.debug("Skip import non-pending item, id: {}, status: {}.", item.getId(), importStatus);
                 }
 
                 log.debug("Finished importing item, id: {}.", item.getId());
@@ -69,19 +69,21 @@ public class SkuImportingController {
 
     private void doImportItem(SKUImporting item) {
         String code = item.getCode();
-        if (StringUtils.equalsIgnoreCase(code, "{自动生成}")) {
+        String codeSource = "ORIGINAL";
+        if (StringUtils.isBlank(code)) {
             code = generateCode();
+            codeSource = "GENERATED";
             item.setCode(code);
             log.debug("Generate sku code: {} for importing: {}.", code, item);
         }
-
+        item.setCodeSource(codeSource);
         SKU sku = skuService.getByCode(code);
         if (sku == null) {
             log.debug("SKU[{}] not exists, creating...", code);
             sku = createSKU(item, "批量入库");
         }
 
-        stockService.stockIn(sku.getId(), item.getQuantity(), "批量入库");
+        stockService.stockIn(sku.getId(), item.getQuantity(), "批量导入");
 
         item.setImportStatus("DONE");
         dao.updateImportStatus(item.getId(), item.getImportStatus());
@@ -90,6 +92,7 @@ public class SkuImportingController {
     private SKU createSKU(SKUImporting item, String source) {
         SKU sku = new SKU();
         sku.setCode(item.getCode());
+        sku.setCodeSource(item.getCodeSource());
         sku.setName(item.getName());
         sku.setColor(item.getColor());
         sku.setSize(item.getSize());
@@ -129,13 +132,19 @@ public class SkuImportingController {
                 }
 
                 Cell codeCell = row.getCell(0);
-                if ("EOF".equals(codeCell.getStringCellValue())) {
-                    log.debug("Breaked with 'EOF', row num: .", row.getRowNum());
+                String code = getStringCellValue(codeCell, "");
+                Cell nameCell = row.getCell(1);
+                String name = getStringCellValue(nameCell, "");
+
+                if(StringUtils.isBlank(code) && StringUtils.isBlank(name)) {
+                    log.warn("Blank row detected, row num: {}.", row.getRowNum());
                     break;
                 }
-                Cell nameCell = row.getCell(1);
+
                 Cell colorCell = row.getCell(2);
+                String color = getStringCellValue(colorCell, "");
                 Cell sizeCell = row.getCell(3);
+                String size = getStringCellValue(sizeCell, "");
                 Cell priceCell = row.getCell(4);
                 Cell quantityCell = row.getCell(5);
 
@@ -144,10 +153,10 @@ public class SkuImportingController {
 
                 s.setImportStatus("PENDING");
                 s.setBatchNo(batchNo);
-                s.setCode(codeCell.getStringCellValue());
-                s.setName(nameCell.getStringCellValue());
-                s.setColor(colorCell.getStringCellValue());
-                s.setSize(getStringCellValue(sizeCell));
+                s.setCode(code);
+                s.setName(name);
+                s.setColor(color);
+                s.setSize(size);
                 s.setPrice(new BigDecimal(getStringCellValue(priceCell)));
                 s.setQuantity(new BigDecimal(getStringCellValue(quantityCell)).intValue());
                 s.setCreateTime(now);
@@ -166,6 +175,13 @@ public class SkuImportingController {
         }
 
         return result;
+    }
+
+    private String getStringCellValue(Cell cell, String defaultValue) {
+        if (cell == null) {
+            return defaultValue;
+        }
+        return getStringCellValue(cell);
     }
 
     @Data

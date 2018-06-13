@@ -12,6 +12,7 @@ public class SKUImporting implements Serializable {
     private Long id;
 
     private String code;
+    private String codeSource;
     private String name;
     private String color;
     private String size;

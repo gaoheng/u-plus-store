@@ -15,14 +15,14 @@ public interface SKUDao {
     SKU getByCode(@Param("code") String code);
 
     @Update("insert into sku(" +
-            "   name, code, price, color, size, mainImg, tagImg, source, createTime" +
+            "   name, code, codeSource, price, color, size, source, createTime" +
             ") values (" +
-            "   #{name}, #{code}, #{price}, #{color}, #{size}, #{mainImg}, #{tagImg}, #{source}, #{createTime})")
+            "   #{name}, #{code}, #{codeSource}, #{price}, #{color}, #{size}, #{source}, #{createTime})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = Long.class)
     int insert(SKU sku);
 
     @Update("update sku set " +
-            "   name = #{name}, code = #{code}, color = #{color}, size = #{size}, mainImg = #{mainImg}, tagImg = #{tagImg}" +
+            "   name = #{name}, color = #{color}, size = #{size} " +
             "where" +
             "   id = #{id}")
     int update(SKU sku);

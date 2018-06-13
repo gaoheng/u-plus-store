@@ -17,6 +17,8 @@ public class SKU implements Serializable {
 
     private String code = "";
 
+    private String codeSource = "";
+
     private BigDecimal price = new BigDecimal(0);
 
     private Integer stock = 0;
@@ -24,10 +26,6 @@ public class SKU implements Serializable {
     private String color = "";
 
     private String size = "";
-
-    private String mainImg = "";
-
-    private String tagImg = "";
 
     private String source = "";
 
