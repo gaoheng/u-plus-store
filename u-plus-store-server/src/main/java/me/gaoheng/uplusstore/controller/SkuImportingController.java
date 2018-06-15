@@ -85,6 +85,7 @@ public class SkuImportingController {
 
     private SKU createSKU(SKUImporting item, String source) {
         SKU sku = new SKU();
+        sku.setCode(item.getCode());
         sku.setName(item.getName());
         sku.setColor(item.getColor());
         sku.setSize(item.getSize());

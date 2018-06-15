@@ -108,12 +108,13 @@ public class SKUController {
     }
 
     @PutMapping("/{id}/stock")
-    public void stock(@PathVariable("id") Long id, @RequestBody Changement changement) {
+    public Changement stock(@PathVariable("id") Long id, @RequestBody Changement changement) {
         if (changement.getDelta() > 0) {
             stockService.stockIn(id, changement.getDelta(), changement.getReason());
         } else {
             stockService.stockOut(id, Math.abs(changement.getDelta()), changement.getReason());
         }
+        return changement;
     }
 
     @Data

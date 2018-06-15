@@ -78,24 +78,24 @@ UNLOCK TABLES;
 -- Table structure for table `skus`
 --
 
-DROP TABLE IF EXISTS `skus`;
+DROP TABLE IF EXISTS `sku`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `skus` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL DEFAULT '',
-  `code` varchar(16) NOT NULL DEFAULT '',
-  `price` decimal(9,2) DEFAULT NULL,
-  `stock` int(11) NOT NULL DEFAULT '0',
-  `mainImg` varchar(255) NOT NULL DEFAULT '',
-  `tagImg` varchar(255) NOT NULL DEFAULT '',
-  `color` varchar(16) NOT NULL DEFAULT '',
-  `size` varchar(16) NOT NULL DEFAULT '',
-  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CREATE TABLE `sku` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `name` varchar(32) NOT NULL DEFAULT '' COMMENT '名称',
+  `code` varchar(16) NOT NULL DEFAULT '' COMMENT '编码',
+  `codeSource` varchar(16) DEFAULT '' COMMENT '编码来源: ORIGINAL 原厂编码, GENERATED 生成编码',
+  `price` decimal(9,2) DEFAULT '0.00' COMMENT '价格',
+  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '库存',
+  `color` varchar(16) NOT NULL DEFAULT '' COMMENT '颜色',
+  `size` varchar(16) NOT NULL DEFAULT '' COMMENT '尺码',
+  `source` varchar(16) DEFAULT '' COMMENT '来源',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `IDX_CODE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,6 +108,16 @@ INSERT INTO `skus` VALUES (1,' 纯色中大童纯棉花边衬衣长袖','111',11
 /*!40000 ALTER TABLE `skus` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `total` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `discount` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `paid` decimal(9,2) NOT NULL DEFAULT '0.00',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `skus_importing` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -123,6 +133,17 @@ CREATE TABLE `skus_importing` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `stock_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skuId` int(11) NOT NULL DEFAULT '-1',
+  `type` varchar(16) NOT NULL DEFAULT '',
+  `delta` int(11) NOT NULL DEFAULT '0',
+  `reason` varchar(32) NOT NULL DEFAULT '',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_skuId` (`skuId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
