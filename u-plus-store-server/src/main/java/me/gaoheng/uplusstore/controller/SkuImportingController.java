@@ -68,22 +68,16 @@ public class SkuImportingController {
     }
 
     private void doImportItem(SKUImporting item) {
-        String code = item.getCode();
-        String codeSource = "ORIGINAL";
-        if (StringUtils.isBlank(code)) {
-            code = generateCode();
-            codeSource = "GENERATED";
-            item.setCode(code);
-            log.debug("Generate sku code: {} for importing: {}.", code, item);
+        SKU sku = null;
+        if (StringUtils.isNotBlank(item.getCode())) {
+            sku = skuService.getByCode(item.getCode());
         }
-        item.setCodeSource(codeSource);
-        SKU sku = skuService.getByCode(code);
         if (sku == null) {
-            log.debug("SKU[{}] not exists, creating...", code);
+            log.debug("SKU[{}] not exists, creating...");
             sku = createSKU(item, "批量入库");
         }
 
-        stockService.stockIn(sku.getId(), item.getQuantity(), "批量导入");
+        stockService.stockIn(sku.getId(), item.getQuantity(), "批量入库");
 
         item.setImportStatus("DONE");
         dao.updateImportStatus(item.getId(), item.getImportStatus());
@@ -91,8 +85,6 @@ public class SkuImportingController {
 
     private SKU createSKU(SKUImporting item, String source) {
         SKU sku = new SKU();
-        sku.setCode(item.getCode());
-        sku.setCodeSource(item.getCodeSource());
         sku.setName(item.getName());
         sku.setColor(item.getColor());
         sku.setSize(item.getSize());
@@ -204,10 +196,6 @@ public class SkuImportingController {
         }
 
         return val;
-    }
-
-    private String generateCode() {
-        return DateFormatUtils.format(new Date(), "yyyyMMdd") + RandomStringUtils.randomNumeric(5);
     }
 
     private void doImport(List<SKUImporting> importings) {

@@ -22,7 +22,7 @@ public interface SKUDao {
     int insert(SKU sku);
 
     @Update("update sku set " +
-            "   name = #{name}, color = #{color}, size = #{size} " +
+            "   name = #{name}, price = #{price}, color = #{color}, size = #{size} " +
             "where" +
             "   id = #{id}")
     int update(SKU sku);
