@@ -109,6 +109,23 @@ INSERT INTO `skus` VALUES (1,' 纯色中大童纯棉花边衬衣长袖','111',11
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
+CREATE TABLE `order_item` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderId` int(11) NOT NULL,
+  `skuId` int(11) NOT NULL,
+  `skuName` varchar(32) DEFAULT NULL,
+  `skuCode` varchar(16) DEFAULT NULL,
+  `skuColor` varchar(16) DEFAULT NULL,
+  `skuSize` varchar(16) DEFAULT NULL,
+  `skuPrice` decimal(9,2) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `IDX_ORDER_ID` (`orderId`),
+  KEY `IDX_SKU_ID` (`skuId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `total` decimal(9,2) NOT NULL DEFAULT '0.00',
