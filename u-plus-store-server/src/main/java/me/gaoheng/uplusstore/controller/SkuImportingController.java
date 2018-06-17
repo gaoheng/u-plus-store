@@ -79,6 +79,8 @@ public class SkuImportingController {
 
         stockService.stockIn(sku.getId(), item.getQuantity(), "批量入库");
 
+        item.setCode(sku.getCode());
+        item.setCodeSource(sku.getCodeSource());
         item.setImportStatus("DONE");
         dao.updateImportStatus(item.getId(), item.getImportStatus());
     }
