@@ -8,7 +8,6 @@ import me.gaoheng.uplusstore.model.SKU;
 import me.gaoheng.uplusstore.model.SKUImporting;
 import me.gaoheng.uplusstore.service.SKUService;
 import me.gaoheng.uplusstore.service.StockService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
